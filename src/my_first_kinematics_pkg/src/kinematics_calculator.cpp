@@ -1,47 +1,54 @@
-#include <rclcpp/rclcpp.hpp>        // Core ROS 2 C++ library (nodes, logging, timers, etc.)
-#include <chrono>                   // For time literals like 500ms
+#include <rclcpp/rclcpp.hpp>
+#include <chrono>
+#include <Eigen/Dense>
+#include <geometry_msgs/msg/twist.hpp>
 
-using namespace std::chrono_literals;   // Allows us to write 500ms instead of std::chrono::milliseconds(500)
+using namespace std::chrono_literals;
 
-// This is the modern, professional way to create a ROS 2 node
-class KinematicsCalculator : public rclcpp::Node
+class SimpleKinematicsNode : public rclcpp::Node
 {
 public:
-  // Constructor - runs when the node is created
-  KinematicsCalculator() : Node("kinematics_calculator")
+  SimpleKinematicsNode() : Node("simple_kinematics_node")
   {
-    // Log message (visible with ros2 run or in rqt_console)
-    RCLCPP_INFO(this->get_logger(), "Kinematics Calculator Node started successfully!");
+    RCLCPP_INFO(this->get_logger(), "? Simple Kinematics Node started!");
 
-    // Create a wall timer (real-time timer, not affected by simulation time yet)
-    // This timer will call timer_callback() every 500 milliseconds
+    // === NEW: Create a Publisher for cmd_vel ===
+    // This will publish velocity commands that a robot (or simulator) can listen to
+    cmd_vel_publisher_ = this->create_publisher<geometry_msgs::msg::Twist>("cmd_vel", 10);
+
+    // Timer at 10 Hz (common control rate)
     timer_ = this->create_wall_timer(
-      500ms,                                      // Period
-      std::bind(&KinematicsCalculator::timer_callback, this));  // What to call
+      1000ms,
+      std::bind(&SimpleKinematicsNode::control_loop, this));
   }
 
 private:
-  // This function runs repeatedly - this is where your robot logic goes
-  void timer_callback()
+  void control_loop()
   {
-    static int counter = 0;                       // static = remembers value between calls
+    // Simple velocity command (move forward while turning a little)
+    geometry_msgs::msg::Twist cmd_vel;
+    cmd_vel.linear.x = 0.3;   // 0.3 m/s forward
+    cmd_vel.angular.z = 0.4;  // 0.4 rad/s turning left
+
+    // Publish the command
+    cmd_vel_publisher_->publish(cmd_vel);
+
+    // Log what we are sending
     RCLCPP_INFO(this->get_logger(), 
-                "Kinematics update #%d - Node is alive and ready for robot math!", 
-                ++counter);
+      "Publishing cmd_vel ? linear.x = %.2f m/s, angular.z = %.2f rad/s",
+      cmd_vel.linear.x, cmd_vel.angular.z);
   }
 
-  // Member variable to store the timer
+  // === NEW MEMBER: Publisher ===
+  rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr cmd_vel_publisher_;
+
   rclcpp::TimerBase::SharedPtr timer_;
 };
 
-// Main function - entry point of the executable
 int main(int argc, char * argv[])
 {
-  rclcpp::init(argc, argv);     // Initialize ROS 2 communication layer (DDS)
-
-  // Create the node object and give control to ROS 2 event loop
-  rclcpp::spin(std::make_shared<KinematicsCalculator>());
-
-  rclcpp::shutdown();           // Clean shutdown when Ctrl+C is pressed
+  rclcpp::init(argc, argv);
+  rclcpp::spin(std::make_shared<SimpleKinematicsNode>());
+  rclcpp::shutdown();
   return 0;
 }
