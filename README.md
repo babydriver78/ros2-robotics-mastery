@@ -6,6 +6,7 @@ My complete ROS 2 Jazzy journey from zero to master-level robotics engineer (C++
 ### Phase 1 - Foundations (Started: Today)
 - [x] GitHub repo + SSH setup
 - [x] First ROS 2 Jazzy C++ package created (`my_first_kinematics_pkg`)
+- [x] Converted node to class style with timer callback (continuous execution)
 - Next: Implement robot kinematics math node
 
 **Current Skills:** ROS 2 workspace, colcon build, ament_cmake, basic rclcpp node
