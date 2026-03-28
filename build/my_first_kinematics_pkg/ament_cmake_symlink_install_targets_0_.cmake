@@ -1,0 +1,1 @@
+ament_cmake_symlink_install_targets("TARGET_FILES" "/home/pi/Desktop/ros2-robotics-mastery/build/my_first_kinematics_pkg/kinematics_calculator" "TARGETS" "kinematics_calculator" "DESTINATION" "lib/my_first_kinematics_pkg")

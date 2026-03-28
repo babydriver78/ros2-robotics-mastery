@@ -1,0 +1,16 @@
+/home/pi/Desktop/ros2-robotics-mastery/install/my_first_kinematics_pkg/lib/my_first_kinematics_pkg/kinematics_calculator
+/home/pi/Desktop/ros2-robotics-mastery/install/my_first_kinematics_pkg/share/ament_index/resource_index/package_run_dependencies/my_first_kinematics_pkg
+/home/pi/Desktop/ros2-robotics-mastery/install/my_first_kinematics_pkg/share/ament_index/resource_index/parent_prefix_path/my_first_kinematics_pkg
+/home/pi/Desktop/ros2-robotics-mastery/install/my_first_kinematics_pkg/share/my_first_kinematics_pkg/environment/ament_prefix_path.sh
+/home/pi/Desktop/ros2-robotics-mastery/install/my_first_kinematics_pkg/share/my_first_kinematics_pkg/environment/ament_prefix_path.dsv
+/home/pi/Desktop/ros2-robotics-mastery/install/my_first_kinematics_pkg/share/my_first_kinematics_pkg/environment/path.sh
+/home/pi/Desktop/ros2-robotics-mastery/install/my_first_kinematics_pkg/share/my_first_kinematics_pkg/environment/path.dsv
+/home/pi/Desktop/ros2-robotics-mastery/install/my_first_kinematics_pkg/share/my_first_kinematics_pkg/local_setup.bash
+/home/pi/Desktop/ros2-robotics-mastery/install/my_first_kinematics_pkg/share/my_first_kinematics_pkg/local_setup.sh
+/home/pi/Desktop/ros2-robotics-mastery/install/my_first_kinematics_pkg/share/my_first_kinematics_pkg/local_setup.zsh
+/home/pi/Desktop/ros2-robotics-mastery/install/my_first_kinematics_pkg/share/my_first_kinematics_pkg/local_setup.dsv
+/home/pi/Desktop/ros2-robotics-mastery/install/my_first_kinematics_pkg/share/my_first_kinematics_pkg/package.dsv
+/home/pi/Desktop/ros2-robotics-mastery/install/my_first_kinematics_pkg/share/ament_index/resource_index/packages/my_first_kinematics_pkg
+/home/pi/Desktop/ros2-robotics-mastery/install/my_first_kinematics_pkg/share/my_first_kinematics_pkg/cmake/my_first_kinematics_pkgConfig.cmake
+/home/pi/Desktop/ros2-robotics-mastery/install/my_first_kinematics_pkg/share/my_first_kinematics_pkg/cmake/my_first_kinematics_pkgConfig-version.cmake
+/home/pi/Desktop/ros2-robotics-mastery/install/my_first_kinematics_pkg/share/my_first_kinematics_pkg/package.xml

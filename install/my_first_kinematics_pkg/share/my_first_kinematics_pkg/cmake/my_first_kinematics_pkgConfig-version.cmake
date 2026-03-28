@@ -1,0 +1,1 @@
+/home/pi/Desktop/ros2-robotics-mastery/build/my_first_kinematics_pkg/ament_cmake_core/my_first_kinematics_pkgConfig-version.cmake
