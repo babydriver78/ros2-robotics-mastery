@@ -20,6 +20,9 @@ find_package(Eigen3 REQUIRED)
 
 find_package(geometry_msgs REQUIRED)
 
+find_package(nav_msgs REQUIRED)
+find_package(tf2 REQUIRED)
+
 # Create the executable
 add_executable(kinematics_calculator src/kinematics_calculator.cpp)
 
@@ -28,6 +31,8 @@ ament_target_dependencies(kinematics_calculator
   rclcpp
   Eigen3
   geometry_msgs
+  nav_msgs
+  tf2
 )
 
 # Install the node
