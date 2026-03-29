@@ -25,21 +25,30 @@ All code is written with deep understanding, clean architecture, and industry be
   - Angular velocity: `ω = (v_r - v_l)/wheelbase`
   - Used `Eigen::Vector2d` for clean robot math
 
-**Current Status:** Phase 1 completed successfully  
+### Phase 2: Odometry & Pose Estimation (Current)
+- [x] Added robot state as member variables (`x_`, `y_`, `theta_`)
+- [x] Implemented position integration (dead reckoning) using forward kinematics
+- [x] Published `nav_msgs/Odometry` with proper quaternion orientation
+- [x] Used `tf2::Quaternion` for orientation conversion
+- [x] Robot pose (x, y, θ) now updates continuously in real time
+
+**Current Status:** Phase 2 in progress  
 **Last Updated:** March 29, 2026
 
 ## Skills Matrix (Living Resume)
 
-| Category                  | Skills Acquired                                      | Status     |
-|---------------------------|------------------------------------------------------|------------|
-| **ROS 2 Core**            | Nodes, Timers, Publishers, `rclcpp::spin()`, QoS    | Completed  |
-| **C++**                   | Modern C++20, Classes, `this` pointer, `std::bind`  | Strong     |
-| **Mathematics**           | Eigen3, Vector math, Differential Drive Kinematics  | Completed  |
-| **Build System**          | ament_cmake, CMakeLists.txt, package.xml, colcon    | Strong     |
-| **Development Tools**     | VS Code + ROS extension, Git, GitHub workflow       | Strong     |
-| **Debugging & Logging**   | RCLCPP_INFO, IntelliSense configuration             | Completed  |
+| Category                  | Skills Acquired                                              | Status     |
+|---------------------------|--------------------------------------------------------------|------------|
+| **ROS 2 Core**            | Nodes, Timers, Publishers, `rclcpp::spin()`, QoS             | Strong     |
+| **C++**                   | Modern C++20, Classes, `this` pointer, `std::bind`, Member variables | Strong     |
+| **Mathematics**           | Eigen3, Vector math, Differential Drive Kinematics, Dead Reckoning | Strong     |
+| **Messages**              | `geometry_msgs/Twist`, `nav_msgs/Odometry`                   | Completed  |
+| **Build System**          | ament_cmake, CMakeLists.txt, package.xml, colcon             | Strong     |
+| **Development Tools**     | VS Code + ROS extension, Git, GitHub workflow                | Strong     |
+| **Debugging & Logging**   | RCLCPP_INFO, IntelliSense configuration                      | Strong     |
 
-**Next Phase (Phase 2):** Odometry integration, position tracking over time, and `nav_msgs/Odometry` publishing.
+**Next Goal (Phase 2 Completion):**  
+Add variable wheel velocities (simple controller), TF broadcasting (`tf2_ros`), and prepare for Gazebo simulation.
 
 ---
 
@@ -48,4 +57,4 @@ All code is written with deep understanding, clean architecture, and industry be
 - `docs/` → Theory notes and reports (will be added later)
 - Progress is tracked via Git commits and this README
 
-**Note:** This README will be updated after **every major stage** of the journey.
+**Note:** This README is updated after **every major milestone** to maintain a professional living portfolio.
