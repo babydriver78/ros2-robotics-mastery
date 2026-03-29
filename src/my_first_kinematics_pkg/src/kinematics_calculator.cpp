@@ -25,18 +25,23 @@ public:
 private:
   void control_loop()
   {
-    // Simple velocity command (move forward while turning a little)
+    double v_left = 0.5;  // Left wheel velocity (m/s)
+    double v_right = 0.7; // Right wheel velocity (m/s)
+    double wheel_base = 0.35; // Distance between wheels (m)
+    // Compute linear and angular velocity
+    double linear_vel = (v_left + v_right) / 2.0;
+    double angular_vel = (v_right - v_left) / wheel_base;
+    // Create a Twist message to publish
     geometry_msgs::msg::Twist cmd_vel;
-    cmd_vel.linear.x = 0.3;   // 0.3 m/s forward
-    cmd_vel.angular.z = 0.4;  // 0.4 rad/s turning left
-
-    // Publish the command
+    cmd_vel.linear.x = linear_vel; // Forward velocity
+    cmd_vel.angular.z = angular_vel; // Rotation around Z-axis
+    // Publish the velocity command
     cmd_vel_publisher_->publish(cmd_vel);
 
-    // Log what we are sending
-    RCLCPP_INFO(this->get_logger(), 
-      "Publishing cmd_vel ? linear.x = %.2f m/s, angular.z = %.2f rad/s",
-      cmd_vel.linear.x, cmd_vel.angular.z);
+    //Log the computed velocities for debugging
+    RCLCPP_INFO(this->get_logger(),
+      "Forward Kinematics → Wheels (L:%.2f, R:%.2f) | Robot (v=%.2f m/s, ω=%.2f rad/s)",
+      v_left, v_right, linear_vel, angular_vel); 
   }
 
   // === NEW MEMBER: Publisher ===
