@@ -2,8 +2,8 @@
 #include <chrono>
 #include <Eigen/Dense>
 #include <geometry_msgs/msg/twist.hpp>
-#include <nav_msgs/msg/odometry.hpp>           // NEW: For publishing odometry
-#include <tf2/LinearMath/Quaternion.h>        // NEW: For orientation
+#include <nav_msgs/msg/odometry.hpp>
+#include <tf2/LinearMath/Quaternion.h>
 
 using namespace std::chrono_literals;
 
@@ -12,7 +12,7 @@ class KinematicsNode : public rclcpp::Node
 public:
   KinematicsNode() : Node("kinematics_node")
   {
-    RCLCPP_INFO(this->get_logger(), "🚀 Phase 2: Kinematics Node with Odometry started!");
+    RCLCPP_INFO(this->get_logger(), "🚀 Improved Kinematics Node with Variable Control started!");
 
     // Publishers
     cmd_vel_publisher_ = this->create_publisher<geometry_msgs::msg::Twist>("cmd_vel", 10);
@@ -27,43 +27,43 @@ public:
 private:
   void control_loop()
   {
-    // === 1. Wheel velocities (simulate encoder data) ===
-    double v_left  = 0.4;   // m/s
-    double v_right = 0.6;   // m/s
+    // === Variable Control: Change wheel velocities over time ===
+    // Using sine wave to simulate smooth speed variation (realistic behavior)
+    double time_sec = this->now().seconds();
+    double v_left  = 0.4 + 0.1 * std::sin(time_sec);     // Varies between 0.3 ~ 0.5 m/s
+    double v_right = 0.6 + 0.15 * std::sin(time_sec * 1.3); // Slightly different frequency
+
     double wheelbase = 0.35; // meters
 
-    // === 2. Forward Kinematics ===
+    // === Forward Kinematics ===
     double linear_vel  = (v_right + v_left) / 2.0;
     double angular_vel = (v_right - v_left) / wheelbase;
 
-    // === 3. Update Robot Pose (Position Integration) ===
-    double dt = 0.05;  // 50ms timer = 0.05 seconds
+    // === Update Robot Pose (Dead Reckoning) ===
+    double dt = 0.05;  // 50ms = 0.05s
 
-    // Update orientation first
     theta_ += angular_vel * dt;
 
     // Update position using current heading
     x_ += linear_vel * std::cos(theta_) * dt;
     y_ += linear_vel * std::sin(theta_) * dt;
 
-    // === 4. Create and publish cmd_vel ===
+    // === Publish cmd_vel ===
     geometry_msgs::msg::Twist cmd_vel;
     cmd_vel.linear.x = linear_vel;
     cmd_vel.angular.z = angular_vel;
     cmd_vel_publisher_->publish(cmd_vel);
 
-    // === 5. Create and publish Odometry ===
+    // === Publish Odometry ===
     nav_msgs::msg::Odometry odom;
-    odom.header.stamp = this->now();           // Current ROS time
+    odom.header.stamp = this->now();
     odom.header.frame_id = "odom";
     odom.child_frame_id = "base_link";
 
-    // Position
     odom.pose.pose.position.x = x_;
     odom.pose.pose.position.y = y_;
     odom.pose.pose.position.z = 0.0;
 
-    // Orientation (convert theta to quaternion)
     tf2::Quaternion q;
     q.setRPY(0.0, 0.0, theta_);
     odom.pose.pose.orientation.x = q.x();
@@ -71,22 +71,21 @@ private:
     odom.pose.pose.orientation.z = q.z();
     odom.pose.pose.orientation.w = q.w();
 
-    // Velocity
     odom.twist.twist.linear.x = linear_vel;
     odom.twist.twist.angular.z = angular_vel;
 
     odom_publisher_->publish(odom);
 
-    // Log progress
+    // Clean logging
     RCLCPP_INFO(this->get_logger(),
-      "Pose: (x=%.2f, y=%.2f, θ=%.2f rad) | Vel: v=%.2f m/s, ω=%.2f rad/s",
-      x_, y_, theta_, linear_vel, angular_vel);
+      "Pose: (x=%.2f, y=%.2f, θ=%.2f) | Wheels (L=%.2f, R=%.2f) | Vel (v=%.2f, ω=%.2f)",
+      x_, y_, theta_, v_left, v_right, linear_vel, angular_vel);
   }
 
-  // === Member Variables (Robot State) ===
+  // Robot State (Member Variables)
   double x_ = 0.0;
   double y_ = 0.0;
-  double theta_ = 0.0;   // orientation in radians
+  double theta_ = 0.0;
 
   // Publishers
   rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr cmd_vel_publisher_;
